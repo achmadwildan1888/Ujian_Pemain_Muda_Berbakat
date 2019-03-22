@@ -28,11 +28,34 @@ if((k%2) == 0):
 else:
     k=k
     
-model1=LogisticRegression(multi_class='auto',solver='liblinear')
-model2=RandomForestClassifier(n_estimators=100)
-model3 = SVC(gamma = 'auto')
+x=df.loc[:,['Age','Overall','Potential']]
+y=df['Target']
+from sklearn.model_selection import KFold
+k = KFold(n_splits = 4) 
 
+skorlogreg=[]
+skorsvc=[]
+skorrandomfor=[]
 
-print("Skor Logistic Regression: ",round(cross_val_score(model1,x,y,cv=3).mean()*100),' %')
-print("Skor Random Forest: ",round(cross_val_score(model2,x,y,cv=3).mean()*100),' %')
-print("Skor SVM: ",round(cross_val_score(model3,x,y,cv=3).mean()*100),' %')
+x=df.loc[:,['Age','Overall','Potential']]
+y=df['Target']
+kf=KFold(n_splits = 5)
+for train_index,test_index in kf.split(x):
+    x_train=x.iloc[train_index]
+    y_train=y[train_index]
+  
+    
+print("hasil logreg = ",cross_val_score(
+    LogisticRegression(),
+    x_train,
+    y_train).mean())
+
+print("hasil SVM =",cross_val_score(
+    SVC(gamma='auto'),
+     x_train,
+     y_train).mean())
+      
+print("hasil random forest =",cross_val_score(
+    RandomForestClassifier(n_estimators=100),
+     x_train,
+     y_train).mean())
