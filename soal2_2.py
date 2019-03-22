@@ -39,7 +39,7 @@ skorrandomfor=[]
 
 x=df.loc[:,['Age','Overall','Potential']]
 y=df['Target']
-kf=KFold(n_splits = 5)
+kf=KFold(n_splits = 3)
 for train_index,test_index in kf.split(x):
     x_train=x.iloc[train_index]
     y_train=y[train_index]
